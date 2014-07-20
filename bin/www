@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 var debug = require('debug')('durakhangouts');
 var app = require('../app');
+var https = require("https");
+var pem = require("pem");
 
-app.set('port', process.env.PORT || 3000);
-
-var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ' + server.address().port);
+pem.createCertificate({days:1, selfSigned:true}, function(err, keys) {
+    var server =https.createServer({key: keys.serviceKey, cert: keys.certificate}, app).listen(443,function(){
+        debug('Express server listening on port ' + server.address().port);
+    });
 });
