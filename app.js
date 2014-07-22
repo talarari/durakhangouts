@@ -10,17 +10,22 @@ var users = require('./routes/users');
 
 var app = express();
 
+var cors = require('cors');
+app.use(cors());
+
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'jade');
+
+
 
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(require('less-middleware')(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(require('less-middleware')(path.join(__dirname, 'app')));
+app.use(express.static(path.join(__dirname, 'app')));
 
 app.use('/', routes);
 app.use('/users', users);
@@ -31,6 +36,7 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
 
 /// error handlers
 
